@@ -1,38 +1,39 @@
 import { useState } from 'react';
-import {useRecoilState} from 'recoil';
+import {useRecoilValue} from 'recoil';
+
 
 import DeltaButton from './DeltaButton';
 import {StimConfig} from '../models/StimConfig';
+import ReadConfigs from './ReadConfigs';
+import AddConfigs from './AddConfigs';
+
 
 import { stimsArrayAtom } from '../state/atoms/stimsAtom';
 
 import '../styles/utils.css';
 
-interface SetupProps {
-    configs: Array<StimConfig>;
-}
 
 
 
-const SessionSetup: React.FC<SetupProps> = ({configs}) => {
 
-    const [stims, setStims] = useRecoilState(stimsArrayAtom);
-    const addNewStim = (newStim:StimConfig) => setStims([...stims, newStim])
+const SessionSetup= () => {
 
-    const stimList = configs.map(({name, tokens, nBack, weight})=>{
-
-
-
-        return (
-            <div>
+    const [addingNewStim, setAddingNewStim] = useState(false);
+    const toggleAdding = ()=> setAddingNewStim((current)=>!current); 
+    const configs = useRecoilValue(stimsArrayAtom);
 
 
-            </div>
-        )});
+
+    const stimList = configs.map( (stim)=> <ReadConfigs stimName={stim.name} /> );
 
     return  <div>
                 {stimList}
-                <button> + </button>
+
+                {addingNewStim
+                    ? <AddConfigs toggle={toggleAdding}/>
+                    : <button onClick={toggleAdding}> + </button>
+                }
+                
             </div>
 }
 

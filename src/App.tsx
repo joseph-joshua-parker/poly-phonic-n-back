@@ -1,10 +1,15 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { RecoilRoot } from 'recoil';
+
+
+import SessionSetup from './components/SessionSetup';
+import StimConfig from './components/StimConfig';
+
 
 function App() {
   return (
-    
+    <RecoilRoot>
+      <SessionSetup />
+    </RecoilRoot>
   );
 }
 

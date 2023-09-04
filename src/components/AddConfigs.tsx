@@ -1,33 +1,47 @@
 import {useState} from 'react';
+import { useSetRecoilState } from 'recoil';
+import { stimsArrayAtom } from '../state/atoms/stimsAtom';
+
+
 import DeltaButton from './DeltaButton';
+import StimConfig from './StimConfig';
 
+interface AddConfigProps {
+    toggle: ()=>void
+    stimConfig ?: StimConfig
+}
 
-const NewConfig: React.FC = ()=>{
-
+const AddConfigs: React.FC<AddConfigProps> = ({toggle})=>{
+    
     const [name, setName] = useState('');
     const [tokens, setTokens] = useState('');
-    const [nback, setNBack] = useState(1);
+    const [nBack, setNBack] = useState(1);
     const [weight, setWeight] = useState(1);
 
-    const handleSubmit = (e:React.FormEvent<HTMLFormElement>)=>{
+    const setStims = useSetRecoilState(stimsArrayAtom);
+
+    const handleSubmit = (e:any)=>{
         e.preventDefault();
-        newStimHandler(name, tokens, nback, weight);
-        
+
+        setStims((currentStims)=>[
+            ...currentStims,
+            {name, tokens, nBack, weight}
+        ])
     }
 
     return (
-      <form onSubmit={handleSubmit}>
+      <div>
         <div>
             <label>
                   Name:
-                  <input value={tokens} onChange={(e)=>setName(e.target.value)} type="text" name="name"/>
+                  <input value={name} onChange={(e)=>setName(e.target.value)} type="text" name="name"/>
               </label>
         </div>
  
           <div>
               <label>
                   Tokens:
-                  <input value={tokens} onChange={(e)=>setTokens(e.target.value)} type="number" name="tokens"/>
+                  <input value={tokens} onChange={(e)=>setTokens(e.target.value)} type="text" name="tokens"/>
               </label>
           </div>
 
@@ -35,7 +49,7 @@ const NewConfig: React.FC = ()=>{
               <label>
                   nBack:
                   <DeltaButton setState={setNBack}>-1</DeltaButton>
-                  <input value={nback} onChange={(e)=>setNBack(parseInt(e.target.value))} type="number" name="nback"/>
+                  <input value={nBack} onChange={(e)=>setNBack(parseInt(e.target.value))} type="number" name="nback"/>
                   <DeltaButton setState={setNBack}>+1</DeltaButton>
               </label>
           </div>
@@ -48,9 +62,12 @@ const NewConfig: React.FC = ()=>{
                   <DeltaButton setState ={setWeight}>+1</DeltaButton>
               </label>
           </div>
+
+          <button onClick={handleSubmit}>Submit</button>
           
-      </form> 
+      </div> 
     )
+    
 }
 
-export default NewConfig;
+export default AddConfigs;
