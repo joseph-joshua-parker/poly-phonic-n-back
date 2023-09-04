@@ -1,6 +1,8 @@
 import {Stim} from './Stim';
 
 export type StimConfig = {
-    stim: Stim,
+    tokens: string
+    name: string
     nBack: number
+    weight: number
 }
