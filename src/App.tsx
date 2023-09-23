@@ -2,7 +2,7 @@ import { RecoilRoot } from 'recoil';
 
 
 import SessionSetup from './components/SessionSetup';
-import StimConfig from './components/StimConfig';
+
 
 
 function App() {

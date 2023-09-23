@@ -1,5 +1,5 @@
 import {atom} from 'recoil';
-import { StimConfig } from '../../models/StimConfig';
+import  StimConfig  from '../../models/StimConfig';
 
 export const stimsArrayAtom = atom<Array<StimConfig>>({
     key: 'stims',

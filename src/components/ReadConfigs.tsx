@@ -2,8 +2,7 @@ import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { stimAtom } from "../state/atoms/stimsAtom";
 
-import { StimConfig } from "../models/StimConfig";
-import EditConfigs from "./EditConfigs";
+import StimConfig  from "../models/StimConfig";
 
 interface ReadConfigProps {
     stimName:string

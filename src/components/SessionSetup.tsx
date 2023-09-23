@@ -3,7 +3,7 @@ import {useRecoilValue} from 'recoil';
 
 
 import DeltaButton from './DeltaButton';
-import {StimConfig} from '../models/StimConfig';
+import StimConfig from '../models/StimConfig';
 import ReadConfigs from './ReadConfigs';
 import AddConfigs from './AddConfigs';
 
