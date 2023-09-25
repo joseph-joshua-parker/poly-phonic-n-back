@@ -1,36 +1,56 @@
-import { useState } from "react";
-import { useRecoilValue } from "recoil";
-import { stimAtom } from "../state/atoms/stimsAtom";
+import {useNavigate} from 'react-router-dom';
 
-import StimConfig  from "../models/StimConfig";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { stimConfigsAtom, activeStimsAtom } from "../state/atoms/stimsAtom";
+import EditConfigs from "./EditConfigs";
+import { STRING_PARAMS } from "../models/StimConfig";
+import {legendStyle, fieldsetStyle} from '../shared/cssVariables';
 
 interface ReadConfigProps {
-    stimName:string
+    name:string
 }
 
-const ReadConfigs: React.FC<ReadConfigProps> = ({stimName})=>{
-    const stim = useRecoilValue(stimAtom(stimName))
-    const {tokens, nBack, weight, name} = stim;
-    const [isEditing, setIsEditing] = useState(false);
-    const toggleEditing = ()=> setIsEditing(current=>!current);
+const ReadConfigs: React.FC<ReadConfigProps> = ({name})=>{
+    const [stim, setStim] = useRecoilState(stimConfigsAtom(name))
+    const {tokens, nBack, weight} = stim
+    const navigate = useNavigate();
 
-    const ReadConfigs =         
-        <div>
-            <div>Name: {name}</div>
-            <div>Tokens: {tokens}</div>
-            <div>nBack: {nBack}</div>
-            <div>Weight: {weight}</div>
-            <button onClick={toggleEditing}>Edit</button>
-        </div>
+    const [isUsing, setIsUsing] = useRecoilState(activeStimsAtom);
+    
+    const handleDelete = ()=>{
+        setStim(prev=>prev.filter(stim=>stim.name != name));
+    }
 
 
+    const usingStyle = isUsing ?  {opacity:1} : {opacity:0.5}
+    const sliderId = 'using-' + name;
+    return (        
+            <div style={usingStyle} className="card ">
+                <div className="card-header">
+                    <div className="card-header-title">{name}</div>
+                </div>
 
-    return <>
-        { isEditing 
-            ?  <EditConfigs atomName={name} toggle={toggleEditing}/>
-            : ReadConfigs
-        }
-        </>
+                <div className = "card-content">
+                    <p>Tokens: {tokens}</p>
+                    <p>nBack: {nBack}</p>
+                    <p>Weight: {weight}</p>
+                </div>
+            
+                <div className="card-footer">
+                    <div className="field is-inline-block">
+                            <input id={sliderId} type="checkbox" name="isUsing" className="switch "
+                            checked={isUsing} onChange={()=>setIsUsing(prev=>!prev)}/>
+                            <label  htmlFor={sliderId}></label>
+                        </div>
+                    <button style={{marginTop:'3.5px'}} className="button is-small" onClick={()=>navigate(`edit-config/${name}`)}>Edit</button>
+                    <button style={{marginTop:'3.5px'}} className="button is-small" onClick={handleDelete}>Delete</button>
+                </div>
+            </div>
+        )
+
+
+
+
     
 }
 

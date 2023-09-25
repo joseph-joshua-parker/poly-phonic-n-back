@@ -1,12 +1,14 @@
-import {atom} from 'recoil';
-import  StimConfig  from '../../models/StimConfig';
+import {atom, atomFamily} from 'recoil';
+import  StimConfig, {defaultConfig}  from '../../models/StimConfig';
+import { PARAMS } from '../../models/StimConfig';
 
-export const stimsArrayAtom = atom<Array<StimConfig>>({
-    key: 'stims',
-    default: []
+
+export const activeStimsAtom = atom<string>({
+    key: 'activeStimsAtom',
+    default: ''
 })
 
-export const stimAtom = (name: string) => atom<StimConfig>({
-    key: name,
-    default: {name:'', tokens:'', nBack:1, weight: 1},
+export const stimConfigsAtom = atomFamily<StimConfig, string>({
+    key: 'stimsArrayAtom',
+    default: defaultConfig,
 })

@@ -1,5 +1,6 @@
-import { RecoilRoot } from 'recoil';
 
+import 'bulma/css/bulma.min.css';
+import 'bulma-switch/dist/css/bulma-switch.min.css'
 
 import SessionSetup from './components/SessionSetup';
 
@@ -7,9 +8,9 @@ import SessionSetup from './components/SessionSetup';
 
 function App() {
   return (
-    <RecoilRoot>
+
       <SessionSetup />
-    </RecoilRoot>
+
   );
 }
 
